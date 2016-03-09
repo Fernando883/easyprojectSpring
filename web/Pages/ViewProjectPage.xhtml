@@ -1,0 +1,39 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="/Templates/ViewProjectTemplate.xhtml">
+
+    <ui:define name="Head">
+        <ui:include src="/Sections/Head.xhtml"/>
+    </ui:define>
+
+    <ui:define name="Header">
+        <ui:include src="/Sections/Header.xhtml"/>
+    </ui:define>
+
+    <ui:define name="Aside">
+        <ui:include src="/Sections/Aside.xhtml"/>
+    </ui:define>
+
+    <ui:define name="ProjectDetails">
+        <ui:include src="/Sections/ViewProjectDetails.xhtml"/>
+
+    </ui:define>
+
+    <ui:define name="NewTaskForm">
+        <ui:include src="/Sections/NewTask.xhtml"/>       
+    </ui:define>
+
+    <ui:define name="TaskDetails">
+        <ui:include src="/Sections/ViewTaskDetails.xhtml"/>       
+    </ui:define>
+
+    <ui:define name="EditTaskForm">
+        <ui:include src="/Sections/EditTask.xhtml"/>       
+    </ui:define>
+
+    <ui:define name="Footer">
+        <ui:include src="/Sections/Footer.xhtml"/>
+    </ui:define>
+
+</ui:composition>

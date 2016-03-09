@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <div class="pad margin no-print" jsf:rendered = "#{userBean.user.id_project.size() == 0}" >
+        <div class="callout callout-warning" style="margin-bottom: 0!important;">
+            <h4><i class="fa fa-info"></i> Note:</h4>
+            Todavía no está asignado a ningún proyecto. Cuando esté en alguno aquí podrá previsualizar los proyectos que tiene asignado.
+        </div>
+    </div>
+
+    <ui:repeat var="proyecto" value="#{projectBean.projects}">
+
+        <div class="row margin_own-left margin_own-right">
+            <div class="info-box">
+                <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
+                    <i class="ion ion-person"></i>
+                    <span style="font-size: 30px" >#{proyecto.idUsers.size()}</span>
+                </span>
+
+                <div class="info-box-content">
+                    <h:form>
+                        <h:commandLink  action="#{projectBean.doGoProject(proyecto)}">
+                            <span class="info-box-text text-black text-bold"><b>#{proyecto.name} </b></span>
+                        </h:commandLink> 
+                    </h:form>
+
+                    <p>#{proyecto.id_director}</p>
+                    <p><small>#{proyecto.description}</small></p>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <!-- ./col -->
+    </ui:repeat>
+
+</html>

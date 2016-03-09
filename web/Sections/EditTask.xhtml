@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:panelGroup id="editTask" rendered="#{taskBean.viewTask == true and (userBean.taskSelected.usuarioCollection.contains(userBean.user) or userBean.projectSelected.director.equals(userBean.user))}">
+        <div class="box box-success">
+            <div class="box-body">
+
+                <h:form role="form">
+                    
+                    <div class="box-header with-border ">
+
+                        <div class="box-title box-header text-bold">#{userBean.taskSelected.nombre}</div>
+                        <div class="pull-right" >
+                            <button jsf:action="#{taskBean.doEditTask()}" type="submit" class="btn btn-success"><i class="fa fa-external-link"></i><span> Editar tarea</span></button>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <h:outputLabel class="col-sm-3 control-label margin_own_up"> Duración </h:outputLabel>
+                        <div class="col-sm-9">
+                            <h:inputText id="duration_project" value="#{taskBean.duration}" class="form-control margin_own_up"  p:placeholder ="Introduzca la duración de la tarea en horas" required="true" requiredMessage="Debe introducir algo"/>
+                            <c:message for="duration_project" display="text" ></c:message>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel class="col-sm-3 control-label"> Estado </h:outputLabel>
+                        <div class="col-sm-9">
+                            <h:selectOneMenu class="radio" value="#{taskBean.statusTask}">
+                                <f:selectItem itemValue="to do"></f:selectItem>
+                                <f:selectItem itemValue="doing"></f:selectItem>
+                                <f:selectItem itemValue="done"></f:selectItem>	 
+                            </h:selectOneMenu>
+                        </div>
+
+                    </div>
+
+                </h:form>
+
+                <h:form rendered="#{userBean.projectSelected.director.equals(userBean.user)}">
+
+                    <div class="form-group">
+
+                        <h:outputLabel class="col-sm-3 control-label"> Ejecutores </h:outputLabel>
+                        <div class="col-sm-8">
+                            <c:autoComplete id="entrada" value="#{taskBean.search}" completeMethod="#{taskBean.completeName}"
+                                            style="width: 100%" inputStyleClass="form-control" class="margin_own">
+                            </c:autoComplete>
+
+                        </div>
+
+                        <div class="col-sm-1">
+                            <h:commandLink action="#{taskBean.doAddTempList}">
+                                <i class="fa fa-2x fa-plus plus_own"></i>
+                                <f:ajax render="output entrada" execute="entrada"/>
+                            </h:commandLink>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-10 add_user_project" id="panel">
+                            <h:panelGrid id="output">
+                                <ui:repeat  var="user" value="#{taskBean.tempUsers}">
+                                    <h:outputText value="#{user}"></h:outputText>
+                                    <br></br>
+                                </ui:repeat>
+                            </h:panelGrid>
+                        </div>
+                    </div>
+
+                    <h:outputLabel rendered="#{taskBean.taskAdded == true}" class="box-title text-green add_user_project">Tarea editada con éxito</h:outputLabel>
+                </h:form>
+            </div> 
+
+        </div>
+    </h:panelGroup>
+
+</html>
+
