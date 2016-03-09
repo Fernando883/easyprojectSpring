@@ -54,4 +54,9 @@ public class UserService {
     public void editUser (User u) {
         repository.save(u);
     }
+    
+    public User findUsersById(String id) {
+        User user = repository.findOne(id);
+        return user;
+    }
 }

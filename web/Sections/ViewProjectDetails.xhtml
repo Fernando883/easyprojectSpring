@@ -48,8 +48,59 @@
                 </ui:repeat>
 
             </div>
- 
+            
+            <div class="box-body">
+                <div class="table-responsive">
 
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>Nombre de la tarea</th>
+                                <th>Propietarios </th>
+                                <th>Estado </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <ui:repeat class="table no-margin" value="#{projectBean.userBean.projectSelected.listTasks}" var="task">
+
+                                <h:panelGroup>
+                                    <tr>
+                                        <td>
+                                            <h:form>
+                                                <h:commandLink action="#{taskBean.doShowTaskDetail(task)}" class="text-bold">
+                                                    #{task.name}
+                                                </h:commandLink>
+                                            </h:form>
+                                        </td>
+                                        <td>
+                                            <ui:repeat value="#{task.emailsUsers}" var="user">                                                
+                                                <span>
+                                                    #{projectBean.getUserNameByEmail(user)}
+                                                    <br></br>
+                                                </span>
+                                            </ui:repeat>
+
+                                        </td>
+
+                                        <td>
+                                            <h:outputLabel class="label label-success" value="#{task.status}" rendered= "#{task.status eq 'done'}" />
+                                            <h:outputLabel class="label label-warning" value="#{task.status}" rendered="#{task.status eq 'doing'}"/>
+                                            <h:outputLabel class="label label-danger" value="#{task.status}" rendered="#{task.status eq 'to do'}"/> 
+                                        </td>
+
+                                    </tr>
+                                </h:panelGroup>
+
+                            </ui:repeat>
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
         </div>
     </div>
 

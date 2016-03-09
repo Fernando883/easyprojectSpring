@@ -5,6 +5,7 @@
  */
 package easyproject.collection.sub;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 
@@ -22,37 +23,14 @@ public class Task {
     private String description;
     private List<String> files;
     private List<Comment> comments;
+    private List<String> emailsUsers;
 
-    public Task(String name, String duration, String status, String description, List<String> files, List<Comment> comments) {
-        this.name = name;
-        this.duration = duration;
-        this.status = status;
-        this.description = description;
-        this.files = files;
-        this.comments = comments;
+    public Task() {
+        comments = new ArrayList<>();
+        emailsUsers = new ArrayList<>();
+        files = new ArrayList<>();
     }
 
-    public Task(String id, String name, String duration, String status, String description, List<String> files, List<Comment> comments) {
-        this.id = id;
-        this.name = name;
-        this.duration = duration;
-        this.status = status;
-        this.description = description;
-        this.files = files;
-        this.comments = comments;
-    }
-
-    public Task(String name, String duration, String status, String description) {
-        this.name = name;
-        this.duration = duration;
-        this.status = status;
-        this.description = description;
-    }
-
-   
-    
-
- 
 
     public String getId() {
         return id;
@@ -109,6 +87,16 @@ public class Task {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public List<String> getEmailsUsers() {
+        return emailsUsers;
+    }
+
+    public void setEmailsUsers(List<String> emailsUsers) {
+        this.emailsUsers = emailsUsers;
+    }
+    
+    
 
     @Override
     public String toString() {

@@ -13,11 +13,11 @@
 
         <div class="box box-warning" >
             <div class='box-header with-border'>
-                <h3 class="box-title text-yellow text-bold">#{userBean.taskSelected.nombre}</h3><!-- /.user-block -->
+                <h3 class="box-title text-yellow text-bold">#{userBean.taskSelected.name}</h3><!-- /.user-block -->
                 <div class='box-tools' id="status_task">                   
-                    <h:outputLabel class="label label-success" value="#{task.estado}" rendered= "#{task.estado eq 'done'}" />
-                    <h:outputLabel class="label label-warning" value="#{task.estado}" rendered="#{task.estado eq 'doing'}"/>
-                    <h:outputLabel class="label label-danger" value="#{task.estado}" rendered="#{task.estado eq 'to do'}"/>
+                    <h:outputLabel class="label label-success" value="#{userBean.taskSelected.status}" rendered= "#{userBean.taskSelected.status eq 'done'}" />
+                    <h:outputLabel class="label label-warning" value="#{userBean.taskSelected.status}" rendered="#{userBean.taskSelected.status eq 'doing'}"/>
+                    <h:outputLabel class="label label-danger" value="#{userBean.taskSelected.status}" rendered="#{userBean.taskSelected.status eq 'to do'}"/>
 
                     <button id="closeTask" class='btn btn-box-tool' jsf:action="#{taskBean.setViewTask(false)}" onclick="jQuery('#editTask').fadeOut()" data-widget='remove'><i class='fa fa-times'></i>
                         <f:ajax render="editTask" execute="closeTask"/>                                                
@@ -27,29 +27,28 @@
             </div><!-- /.box-header -->
             <div class="box-body with-border">
                 <span class="text-maroon text-bold">
-                    #{userBean.taskSelected.tiempo/60} horas:
+                    #{userBean.taskSelected.duration} horas:
                 </span>
-                #{userBean.taskSelected.descripcion}
+                #{userBean.taskSelected.description}
             </div>
             <div class="with-border">
 
             </div>
 
             <h:panelGroup id="outComment">
-                <ui:repeat value="#{userBean.taskSelected.comentarioCollection}" var="comment">
+                <ui:repeat value="#{userBean.taskSelected.comments}" var="comment">
 
                     <div class='box-footer box-comments with-border'>
                         <div class='box-comment'>
                             <!-- User image -->
                             <div class="margin_own-left">
                                 <span class="username">
-                                    #{comment.idUsuario.nombreU}
-                                    <h:outputLabel class="text-muted pull-right" value="#{comment.fecha}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                    #{comment.userName}
+                                    <h:outputLabel class="text-muted pull-right" value="#{commentBean.getDate(comment.id)}">
                                     </h:outputLabel>
                                 </span><!-- /.username -->
-                                #{comment.texto}
-                                <h:form><h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.texto)}" value="Descargar" rendered="#{comment.texto.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
+                                #{comment.commentText}
+                                <h:form><h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.commentText)}" value="Descargar" rendered="#{comment.commentText.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
 
                             </div><!-- /.comment-text -->
                         </div><!-- /.box-comment -->

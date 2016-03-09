@@ -16,7 +16,9 @@
 
         <div class="row margin_own-left margin_own-right">
             <div class="info-box">
-                <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
+                <span class="info-box-icon #{colors.getColor(projectBean.calculaPosicionProject(proyecto))}">
+                 
+               
                     <i class="ion ion-person"></i>
                     <span style="font-size: 30px" >#{proyecto.idUsers.size()}</span>
                 </span>
@@ -28,7 +30,7 @@
                         </h:commandLink> 
                     </h:form>
 
-                    <p>#{proyecto.id_director}</p>
+                    <p>#{projectBean.getUserName(proyecto.id_director)}</p>
                     <p><small>#{proyecto.description}</small></p>
                 </div>
                 <!-- /.info-box-content -->

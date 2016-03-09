@@ -6,9 +6,11 @@
 package easyproject.service;
 
 import easyproject.collection.Project;
+import easyproject.collection.sub.Task;
 import easyproject.repository.ProjectRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,10 @@ public class ProjectService {
     
     public Project findProjectById(String id){
         return repository.findOne(id);
+    }
+    
+    public List<Task> findAllTaskById(String idProject){
+        return repository.findAllTaskById(idProject);
     }
     
     public List<Project> findAllProject() {

@@ -55,8 +55,8 @@
                 <li class="treeview" jsf:rendered="#{userBean.projectSelected != null}">
                     <a href="#"><i class="fa fa-files-o"></i><span>Tareas</span> <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
-                        <ui:repeat var="task" value="#{taskBean.collectionTask}" varStatus="status">
-                            <li><a href="#">#{task.nombre}</a></li>
+                        <ui:repeat var="task" value="#{userBean.projectSelected.listTasks}" varStatus="status">
+                            <li><a href="#">#{task.name}</a></li>
                         </ui:repeat>
                     </ul>
                 </li>

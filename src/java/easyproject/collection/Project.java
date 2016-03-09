@@ -6,6 +6,7 @@
 package easyproject.collection;
 
 import easyproject.collection.sub.Task;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,6 +28,8 @@ public class Project {
     private List<String> emailsUsers;
 
     public Project() {
+        listTasks = new ArrayList<Task>();
+        emailsUsers = new ArrayList<>();
     }
 
     public String getId() {

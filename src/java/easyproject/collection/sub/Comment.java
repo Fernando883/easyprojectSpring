@@ -16,19 +16,11 @@ public class Comment {
     @Id
     private String id;
     private String commentText;
-    private String date;
+    private String userName;
 
-    public Comment(String id, String commentText, String date) {
-        this.id = id;
-        this.commentText = commentText;
-        this.date = date;
+    public Comment() {
     }
-
-    public Comment(String commentText, String date) {
-        this.commentText = commentText;
-        this.date = date;
-    }
-
+    
     public String getId() {
         return id;
     }
@@ -45,17 +37,21 @@ public class Comment {
         this.commentText = commentText;
     }
 
-    public String getDate() {
-        return date;
+
+    public String getUserName() {
+        return userName;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
+
+
+    
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", commentText=" + commentText + ", date=" + date + '}';
+        return "Comment{" + "id=" + id + ", commentText=" + commentText + '}';
     }
     
     

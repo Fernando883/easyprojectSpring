@@ -6,6 +6,9 @@
 package easyproject.repository;
 
 import easyproject.collection.Project;
+import easyproject.collection.User;
+import easyproject.collection.sub.Task;
+import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,6 +21,5 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends MongoRepository<Project, String>{
     
     @Query("{'id': ?0 }")
-    public Project findProjectsById(String id);
-    
+    public List<Task> findAllTaskById(String id);
 }

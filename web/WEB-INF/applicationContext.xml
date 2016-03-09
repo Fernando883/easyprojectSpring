@@ -31,5 +31,15 @@
     </bean>
      
     <mongo:repositories base-package="easyproject.repository"/>  
+    
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="view">
+                    <bean class="easyproject.utils.SpringViewJsfScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
 </beans>
