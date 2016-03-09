@@ -9,14 +9,12 @@ import easyproject.collection.Project;
 import easyproject.collection.User;
 import easyproject.service.ProjectService;
 import easyproject.service.UserService;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,8 +24,8 @@ import org.springframework.stereotype.Component;
  * @author csalas
  */
 @Component
-@Scope("request")
-public class ProjectBean {
+@Scope("session")
+public class ProjectBean implements Serializable{
 
     private String projectName;
     private String projectDescription;
@@ -40,11 +38,14 @@ public class ProjectBean {
     @Autowired
     private ProjectService projectService;
 
-//    protected List<String> listUsersName;
-//    protected List<String> tempUsers;
-//    protected String search;
-//    protected boolean projectAdded;
-//    protected boolean editProject;
+    protected List<String> listUsersName;
+    protected List<String> tempUsers;
+    protected String search;
+    protected boolean projectAdded;
+    protected boolean editProject;
+    protected boolean projectEdited;
+    HashMap<String, User> users;
+
     /**
      * Creates a new instance of addProjectBean
      */
@@ -54,11 +55,11 @@ public class ProjectBean {
 
     @PostConstruct
     public void init() {
-//        search = "";
-//
-//        userRemove = new ArrayList<>();
-//        projectAdded = false;
-//        projectEdited = false;
+        search = "";
+
+        users = new HashMap<>();
+        projectAdded = false;
+        projectEdited = false;
 
     }
 
@@ -94,52 +95,62 @@ public class ProjectBean {
         this.userBean = userBean;
     }
 
-//    public List<String> getListUsersName() {
-//        return listUsersName;
-//    }
-//
-//    public void setListUsersName(List<String> listUsersName) {
-//        this.listUsersName = listUsersName;
-//    }
-//
-//    public String getSearch() {
-//        return search;
-//    }
-//
-//    public void setSearch(String search) {
-//        this.search = search;
-//    }
-//
-//    public List<String> getTempUsers() {
-//        return tempUsers;
-//    }
-//
-//    public void setTempUsers(List<String> tempUsers) {
-//        this.tempUsers = tempUsers;
-//    }
-//
-//    public boolean isProjectAdded() {
-//        return projectAdded;
-//    }
-//    
-//    public void setProjectAdded(boolean proyectoInsertado) {
-//        this.projectAdded = proyectoInsertado;
-//    }
-//
-//    public boolean isEditProject() {
-//        return editProject;
-//    }
-//
-//    public void setEditProject(boolean editProject) {
-//        this.editProject = editProject;
-//    }
-//    public String doEditableProject () {
-//        setEditProject(true);
-//        
-//        return "";
-//    }
+    public List<String> getListUsersName() {
+        return listUsersName;
+    }
+
+    public void setListUsersName(List<String> listUsersName) {
+        this.listUsersName = listUsersName;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+    public List<String> getTempUsers() {
+        return tempUsers;
+    }
+
+    public void setTempUsers(List<String> tempUsers) {
+        this.tempUsers = tempUsers;
+    }
+
+    public boolean isProjectAdded() {
+        return projectAdded;
+    }
+
+    public void setProjectAdded(boolean proyectoInsertado) {
+        this.projectAdded = proyectoInsertado;
+    }
+
+    public boolean isEditProject() {
+        return editProject;
+    }
+
+    public void setEditProject(boolean editProject) {
+        this.editProject = editProject;
+    }
+
+    public String doEditableProject() {
+        setEditProject(true);
+
+        return "";
+    }
+
+    public boolean isProjectEdited() {
+        return projectEdited;
+    }
+
+    public void setProjectEdited(boolean projectEdited) {
+        this.projectEdited = projectEdited;
+    }
+
     public List<Project> getProjects() {
-        List<String> idprojects = (List<String>) userBean.getId_project();
+        Collection<String> idprojects = userBean.getUser().getId_project();
         projects = new ArrayList<>();
         if (idprojects != null) {
 
@@ -155,87 +166,95 @@ public class ProjectBean {
         this.projects = projects;
     }
 
-//    public List<String> completeName(String query) {
-//        List<String> results = new ArrayList<>();
-//
-//        for (String nombre : this.listUsersName) {
-//            if (nombre.startsWith(query)) {
-//                results.add(nombre);
-//
-//            }
-//        }
-//        return results;
-//    }
     public String doGoProject(Project project) {
         userBean.setProjectSelected(project);
         return "ViewProjectPage";
     }
 
-//    public String doAddTempList() {
-//
-//        if (!tempUsers.contains(search)) {
-//            tempUsers.add(search);
-//        }
-//
-//        search = "";
-//        return null;
-//    }
-//
-//    public String doCleanProject() {
-//        
-//        projectName = "";
-//
-//        projectDescription = "";
-//        tempUsers = new ArrayList<>();
-//
-//        return "";
-//    }
-//
-//    public String doAddProject() {
-//
-//        String email;
-//        String message = "";
-//
-//        List<Usuario> memberProject = new ArrayList<>();
-//
-//        for (String userString : tempUsers) {
-//            Usuario tmp = usuarioFacade.getUser(userString);
-//            if (tmp != null) {
-//                memberProject.add(tmp);
-//            }
-//        }
-//
-//        memberProject.add(userBean.getUser());
-//        Proyecto project = new Proyecto();
-//        project.setNombreP(projectName);
-//        project.setDescripcion(projectDescription);
-//        project.setDirector(userBean.getUser());
-//        project.setUsuarioCollection(memberProject);
-//
-//        proyectoFacade.create(project);
-//        proyectos.add(project);
-//
-//        projectName = "";
-//
-//        projectDescription = "";
-//        tempUsers = new ArrayList<>();
-//        projectAdded = true;
-//
-//        message = "has sido añadido al proyecto" + project.getNombreP() + "por el usuario:" + userBean.getName();
-//
-//        List<Usuario> usuario = (List<Usuario>) project.getUsuarioCollection();
-//        for (Usuario usuario1 : usuario) {
-//
-//            email = usuario1.getEmail();
-//            new SendMail(email, project.getNombreP(), message).start();
-//
-//            //mail.toString();
-//        }
-//
-//        return null;
-//    }
-//
-//    public String doGoToNewProject() {
-//        return "NewProjectPage";
-//    }
+    public String doPrepareCreate() {
+
+        listUsersName = new ArrayList<>();
+        
+        for (User user : userService.findAllUsers()) {
+            listUsersName.add(user.getEmail());
+            users.put(user.getEmail(), user);
+        }
+
+        listUsersName.remove(userBean.getUser().getEmail());
+        tempUsers = new ArrayList<>();
+
+        return "";
+    }
+
+    public List<String> completeName(String query) {
+        List<String> results = new ArrayList<>();
+
+        for (String nombre : this.listUsersName) {
+            if (nombre.startsWith(query)) {
+                results.add(nombre);
+
+            }
+        }
+        return results;
+    }
+
+    public String doAddTempList() {
+
+        if (!tempUsers.contains(search)) {
+            tempUsers.add(search);
+        }
+
+        search = "";
+        return null;
+    }
+
+    public String doCleanProject() {
+
+        projectName = "";
+
+        projectDescription = "";
+        tempUsers = new ArrayList<>();
+
+        return "";
+    }
+
+    public String doAddProject() {
+
+        String message = "";
+        
+        Project project = new Project();
+        project.setName(projectName);
+        project.setDescription(projectDescription);
+        project.setId_director(userBean.getUser().getId());
+        tempUsers.add(userBean.getUser().getEmail());
+        project.setEmailsUsers(tempUsers);       
+        projectService.createProject(project);
+               
+        for (String key: tempUsers) {
+            User tmp = users.get(key);
+            tmp.getId_project().add(project.getId());
+            userService.editUser(tmp);
+        }
+        projectName = "";
+
+        projectDescription = "";
+        tempUsers = new ArrayList<>();
+        projectAdded = true;
+
+        /*message = "has sido añadido al proyecto" + project.getName() + "por el usuario:" + userBean.getName();
+
+       
+        for (String email: tempUsers) {
+        
+            new SendMail(email, project.getName(), message).start();
+
+            //mail.toString();
+        }*/
+
+        return "";
+    }
+
+    public String doGoToNewProject() {
+        return "NewProjectPage";
+    }
 }

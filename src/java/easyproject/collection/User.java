@@ -5,6 +5,7 @@
  */
 package easyproject.collection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +19,9 @@ public class User {
     private String name;
     private Collection <String> id_project;
  
-    public User() {}
+    public User() {
+        id_project = new ArrayList<>();
+    }
 
     public User(String email, String name) {
         this.email = email;

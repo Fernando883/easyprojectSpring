@@ -22,4 +22,6 @@ public interface UserRepository extends MongoRepository<User, String>{
     
     @Query("{'name':{$regex: '.*?0.*' }}")
     public List<User> findUsersByName(String name);
+    
+
 }

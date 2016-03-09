@@ -24,33 +24,9 @@ public class Project {
     private String description;
     private String chat; 
     private List<Task> listTasks;
-    private List<String> idUsers;
+    private List<String> emailsUsers;
 
-    public Project(String id, String name, String id_director, String description, String chat, List<Task> listTasks, List<String> idUsers) {
-        this.id = id;
-        this.name = name;
-        this.id_director = id_director;
-        this.description = description;
-        this.chat = chat;
-        this.listTasks = listTasks;
-        this.idUsers = idUsers;
-    }
- 
-    public Project(String id, String name, String id_director, String description, String chat, List<Task> listTasks) {
-        this.id = id;
-        this.name = name;
-        this.id_director = id_director;
-        this.description = description;
-        this.chat = chat;
-        this.listTasks = listTasks;
-    }
-
-    public Project(String name, String id_director, String description, String chat, List<Task> listTasks) {
-        this.name = name;
-        this.id_director = id_director;
-        this.description = description;
-        this.chat = chat;
-        this.listTasks = listTasks;
+    public Project() {
     }
 
     public String getId() {
@@ -77,6 +53,16 @@ public class Project {
         this.id_director = id_director;
     }
 
+    public List<String> getEmailsUsers() {
+        return emailsUsers;
+    }
+
+    public void setEmailsUsers(List<String> emailsUsers) {
+        this.emailsUsers = emailsUsers;
+    }
+
+    
+
     public String getDescription() {
         return description;
     }
@@ -102,11 +88,11 @@ public class Project {
     }
 
     public List<String> getIdUsers() {
-        return idUsers;
+        return emailsUsers;
     }
 
     public void setIdUsers(List<String> idUsers) {
-        this.idUsers = idUsers;
+        this.emailsUsers = idUsers;
     }
     
     
