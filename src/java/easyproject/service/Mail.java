@@ -1,14 +1,15 @@
-package easyproject.utils;
+package easyproject.service;
 
 import java.util.Date;
 import java.util.Properties;
-import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,7 +21,8 @@ import javax.mail.internet.MimeMessage;
  *
  * @author aitorpagan
  */
-@Stateless
+@Component
+@Service
 public class Mail {
         String servidorSMTP = "smtp.gmail.com";
         String puerto = "587";

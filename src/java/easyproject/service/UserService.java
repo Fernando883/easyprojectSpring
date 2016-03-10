@@ -18,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private Mail mail;
+    
 
     public UserRepository getRepository() {
         return repository;
@@ -58,5 +61,23 @@ public class UserService {
     public User findUsersById(String id) {
         User user = repository.findOne(id);
         return user;
+    }
+    
+    public User findUsersByEmail(String email) {
+        User user = repository.findUsersByEmail(email);
+        return user;
+    }
+    
+    public void sendEmail(String user,String email,String desteny, String subject, String message){
+        
+        String message1 = "El usuario " + user + ", con email " + email + ", le ha mandado el siguiente mensaje: \n\n" + message;
+        
+        mail = new Mail(subject, message1,desteny);
+        mail.sendMail();
+    }
+    
+    public void sendEmailCreate(String desteny, String subject, String message){
+        mail=new Mail(subject,message,desteny);
+        mail.sendMail();
     }
 }

@@ -8,7 +8,7 @@
       xmlns:c="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <h:panelGroup id="editTask" rendered="#{taskBean.viewTask == true and (userBean.taskSelected.usuarioCollection.contains(userBean.user) or userBean.projectSelected.director.equals(userBean.user))}">
+    <h:panelGroup id="editTask" rendered="#{taskBean.viewTask == true and (userBean.taskSelected.emailsUsers.contains(userBean.user.email) or userBean.projectSelected.id_director.equals(userBean.user.id))}">
         <div class="box box-success">
             <div class="box-body">
 
@@ -16,7 +16,7 @@
                     
                     <div class="box-header with-border ">
 
-                        <div class="box-title box-header text-bold">#{userBean.taskSelected.nombre}</div>
+                        <div class="box-title box-header text-bold">#{userBean.taskSelected.name}</div>
                         <div class="pull-right" >
                             <button jsf:action="#{taskBean.doEditTask()}" type="submit" class="btn btn-success"><i class="fa fa-external-link"></i><span> Editar tarea</span></button>
                         </div>
@@ -48,7 +48,7 @@
 
                 </h:form>
 
-                <h:form rendered="#{userBean.projectSelected.director.equals(userBean.user)}">
+                <h:form rendered="#{userBean.projectSelected.id_director.equals(userBean.user.id)}">
 
                     <div class="form-group">
 
@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    <h:outputLabel rendered="#{taskBean.taskAdded == true}" class="box-title text-green add_user_project">Tarea editada con éxito</h:outputLabel>
+                    <h:outputLabel rendered="#{taskBean.taskEdited == true}" class="box-title text-green add_user_project">Tarea editada con éxito</h:outputLabel>
                 </h:form>
             </div> 
 

@@ -7,17 +7,23 @@ package easyproject.bean;
 
 import easyproject.collection.Project;
 import easyproject.collection.User;
+import easyproject.collection.sub.Task;
 import easyproject.service.ProjectService;
 import easyproject.service.UserService;
+import easyproject.utils.SendMail;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
@@ -44,7 +50,11 @@ public class ProjectBean implements Serializable {
     protected String search;
     protected boolean editProject;
     protected boolean projectEdited;
+    protected boolean projectAdded;
     HashMap<String, User> users;
+    private String message = "Ha intentado eliminar un usuario asignado a una tarea";
+    private boolean show = false;
+    private Map<String, Boolean> checked = new HashMap<>();
 
     /**
      * Creates a new instance of addProjectBean
@@ -58,11 +68,11 @@ public class ProjectBean implements Serializable {
 
         users = new HashMap<>();
         projectEdited = false;
-         cargarProjects ();
- 
+        cargarProjects();
+
     }
 
-    private void cargarProjects () {
+    private void cargarProjects() {
         userBean.setUser(userService.findByEmail(userBean.getUser().getEmail()));
         Collection<String> idprojects = userBean.getUser().getId_project();
         projects = new ArrayList<>();
@@ -73,7 +83,7 @@ public class ProjectBean implements Serializable {
             }
         }
     }
-    
+
     public String getProjectName() {
         return projectName;
     }
@@ -138,10 +148,25 @@ public class ProjectBean implements Serializable {
         this.editProject = editProject;
     }
 
-    public String doEditableProject() {
-        setEditProject(true);
+    public Map<String, Boolean> getChecked() {
+        return checked;
+    }
 
-        return "";
+    public void setChecked(Map<String, Boolean> checked) {
+        this.checked = checked;
+    }
+
+//    public String doEditableProject() {
+//        setEditProject(true);
+//
+//        return "";
+//    }
+    public boolean isProjectAdded() {
+        return projectAdded;
+    }
+
+    public void setProjectAdded(boolean projectAdded) {
+        this.projectAdded = projectAdded;
     }
 
     public boolean isProjectEdited() {
@@ -157,7 +182,7 @@ public class ProjectBean implements Serializable {
         return userDirector.getName();
     }
 
-    public String getUserNameByEmail (String email) {
+    public String getUserNameByEmail(String email) {
         User user = userService.findByEmail(email);
         return user.getName();
     }
@@ -170,13 +195,98 @@ public class ProjectBean implements Serializable {
         this.projects = projects;
     }
 
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public String doGoProject(Project project) {
         userBean.setProjectSelected(project);
         return "ViewProjectPage";
     }
 
     public String doPrepareEdit() {
+        listUsersName = new ArrayList<>();
+        List<User> allUsers = userService.findAllUsers();
+        for (User allUser : allUsers) {
+            listUsersName.add(allUser.getEmail());
+        }
+        listUsersName.remove(userBean.getUser().getEmail());
 
+        for (String email : userBean.getProjectSelected().getEmailsUsers()) {
+            listUsersName.remove(email);
+        }
+
+        tempUsers = new ArrayList<>();
+
+        return "";
+    }
+
+    public String doEditProject() {
+
+        //Lo que había antes más los nuevos
+        List<String> memberProject = (List<String>) userBean.getProjectSelected().getEmailsUsers();
+        if (tempUsers != null) {
+            for (String userString : tempUsers) {
+                if (!memberProject.contains(userString)) {
+                    memberProject.add(userString);
+                }
+            }
+        }
+
+        Iterator it = checked.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            it.remove(); // avoids a ConcurrentModificationException
+            if (pair.getValue().equals(true)) {
+
+                String user = (String) pair.getKey();
+                boolean find = false;
+
+                if (userBean.getProjectSelected().getListTasks().size() > 0) {
+                    for (Task task : userBean.getProjectSelected().getListTasks()) {
+                        if (task.getEmailsUsers().contains(user)) {
+                            find = true;
+                            show = true;
+                            break;
+                        }
+                    }
+                }
+                if (!find) {
+                    userBean.getProjectSelected().getEmailsUsers().remove((String) pair.getKey());
+                }
+            }
+        }
+
+        userBean.getProjectSelected().setEmailsUsers(memberProject);
+
+        if (projectName.length() != 0) {
+            userBean.getProjectSelected().setName(projectName);
+
+        }
+
+        if (projectDescription.length() != 0) {
+            userBean.getProjectSelected().setDescription(projectName);
+
+        }
+
+        projectService.editProject(userBean.getProjectSelected());
+
+        projectName = "";
+        projectDescription = "";
+        tempUsers = new ArrayList<>();
+        projectEdited = true;
         return "";
     }
 
@@ -230,7 +340,9 @@ public class ProjectBean implements Serializable {
     public String doAddProject() {
 
         String message = "";
-
+      
+       
+       
         Project project = new Project();
         project.setName(projectName);
         project.setDescription(projectDescription);
@@ -244,33 +356,40 @@ public class ProjectBean implements Serializable {
             tmp.getId_project().add(project.getId());
             userService.editUser(tmp);
         }
-        projectName = "";
+        
 
+        message = "Has sido añadido al proyecto " + userBean.getProjectSelected().getName() + ". El "
+                + "director del proyecto es: " + userBean.getName();
+        
+         
+        for (String email : tempUsers) {
+           
+            new SendMail(email,project.getName(),message).start();
+            
+
+        }
         projectDescription = "";
         tempUsers = new ArrayList<>();
-        cargarProjects ();
-
-        /*message = "has sido añadido al proyecto" + project.getName() + "por el usuario:" + userBean.getName();
-
-       
-         for (String email: tempUsers) {
-        
-         new SendMail(email, project.getName(), message).start();
-
-         //mail.toString();
-         }*/
+        projectName = "";
+        cargarProjects();
         return "";
     }
 
     public String doGoToNewProject() {
         return "NewProjectPage";
     }
-    
-    public int calculaPosicionProject (Project proyecto) {
+
+    public int calculaPosicionProject(Project proyecto) {
         if (this.projects == null) {
             return 0;
         }
-        
+
         return this.projects.indexOf(proyecto) % 9;
     }
+
+    public String findUserByEmail(String email_director) {
+        User user = userService.findUsersByEmail(email_director);
+        return user.getId();
+    }
+
 }

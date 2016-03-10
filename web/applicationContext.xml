@@ -19,7 +19,8 @@
     <context:component-scan base-package="easyproject.collection" />
     <context:component-scan base-package="easyproject.repository" />
     <context:component-scan base-package="easyproject.service" />
-    <context:component-scan base-package="easyproject.bean" />    
+    <context:component-scan base-package="easyproject.bean" /> 
+    <context:component-scan base-package="easyproject.utils" /> 
    
 
     <mongo:mongo host="127.0.0.1" port="27017"/>

@@ -6,9 +6,11 @@
 package easyproject.bean;
 
 
+import easyproject.collection.User;
 import easyproject.collection.sub.Task;
 import easyproject.service.ProjectService;
 import easyproject.service.UserService;
+import easyproject.utils.SendMail;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -85,6 +87,8 @@ public class TaskBean {
     }
 
     public Collection<Task> getCollectionTask() {
+        taskAdded = false;
+        taskEdited = false;
         collectionTask = new ArrayList<Task>();
         if (userBean.getProjectSelected() != null) {
             userBean.setUser(userService.findByEmail(userBean.getUser().getEmail()));
@@ -176,6 +180,8 @@ public class TaskBean {
     
 
     public String doShowTaskDetail(Task task) {
+        taskAdded = false;
+        taskEdited = false;
         this.viewTask = true;
         this.userBean.taskSelected = task;
 
@@ -186,7 +192,7 @@ public class TaskBean {
         List<String> results = new ArrayList<>();
 
         for (String nombre : this.listUsersName) {
-            if (nombre.startsWith(query)) {
+            if (!nombre.equals("") && nombre.startsWith(query)) {
                 results.add(nombre);
 
             }
@@ -196,7 +202,7 @@ public class TaskBean {
 
     public String doAddTempList() {
 
-        if (!tempUsers.contains(search)) {
+        if (!tempUsers.contains(search) && !search.equals("")) {
             tempUsers.add(search);
         }
 
@@ -206,83 +212,76 @@ public class TaskBean {
 
     public String doEditTask() {
 
-//        //Lo que había antes más los nuevos
-//        List<Usuario> memberTask = (List<Usuario>) userBean.taskSelected.getUsuarioCollection();
-//
-//        for (String userString : tempUsers) {
-//            Usuario tmp = usuarioFacade.getUser(userString);
-//            if (tmp != null) {
-//                memberTask.add(tmp);
-//            }
-//        }
-//        userBean.taskSelected.setUsuarioCollection(memberTask);
-//
-//        userBean.taskSelected.setEstado(statusTask);
-//
-//        BigInteger min = new BigInteger("60");
-//        BigInteger durationMinutes = duration.multiply(min);
-//        userBean.taskSelected.setTiempo(durationMinutes);
-//
-//        tareaFacade.edit(userBean.taskSelected);
-//
-//        duration = null;
-//        tempUsers = new ArrayList<>();
-//        taskEdited = true;
+        //Lo que había antes más los nuevos
+        List<String> memberTask = (List<String>) userBean.taskSelected.getEmailsUsers();
+
+        for (String userString : tempUsers) {
+           if(!memberTask.contains(userString))
+           { memberTask.add(userString);
+           }
+        }
+        userBean.taskSelected.setEmailsUsers(memberTask);
+
+        userBean.taskSelected.setStatus(statusTask);
+
+       
+        userBean.taskSelected.setDuration(duration);
+
+        projectService.editProject(userBean.getProjectSelected());
+
+        duration = null;
+        tempUsers = new ArrayList<>();
+        taskEdited = true;
 
         return "";
     }
 
     public String doAddTask() {
+        
+        String message = "";
 
-//        List<Usuario> memberTask = new ArrayList<>();
-//        String email;
-//        String message = "";
-//
-//        for (String userString : tempUsers) {
-//            Usuario tmp = usuarioFacade.getUser(userString);
-//            if (tmp != null) {
-//                memberTask.add(tmp);
-//            }
-//        }
-//
-//        Tarea task = new Tarea();
         
         Task task = new Task();
 
         task.setName(nameTask);
 
-//        BigInteger min = new BigInteger("60");
-//        BigInteger durationMinutes = duration.multiply(min);
-        task.setDuration(duration);
-
-        task.setStatus(statusTask);
-
-        task.setDescription(description); 
-
-        task.setEmailsUsers(tempUsers);
         
-        task.setId(String.valueOf(System.currentTimeMillis()));
-        
-        userBean.getProjectSelected().getListTasks().add(task);
-        
-        projectService.editProject(userBean.getProjectSelected());
+        if(tempUsers.size() > 0)
+        {
+            task.setDuration(duration);
 
+            task.setStatus(statusTask);
+
+            task.setDescription(description); 
+
+            task.setEmailsUsers(tempUsers);
+
+            task.setId(String.valueOf(System.currentTimeMillis()));
+
+            userBean.getProjectSelected().getListTasks().add(task);
+
+            projectService.editProject(userBean.getProjectSelected());
+            taskAdded = true;
+            
+        }
+        
+        
+        
+        message = "Has sido añadido a la tarea " + task.getName() + " del proyecto: " + userBean.getProjectSelected().getName() + ". El "
+                + "director del proyecto es: " + userBean.getName();
+        
+         
+        for (String email : tempUsers) {
+           
+            new SendMail(email,task.getName(),message).start();
+            
+
+        }
+        
         nameTask = "";
         description = "";
         duration = null;
         tempUsers = new ArrayList<>();
-        taskAdded = true;
-
-//        message = "has sido añadido a la tarea"+ task.getNombre()+"en el proyecto:"+task.getIdProyecto().getNombreP()+"por el usuario:"+userBean.getName();
-//
-//        List<Usuario> usuario = (List<Usuario>) task.getUsuarioCollection();
-//        for (Usuario usuario1 : usuario) {
-//
-//            email = usuario1.getEmail();
-//            new SendMail(email, task.getNombre(), message).start();
-//             
-//               
-//        }
         
         return "";
         
