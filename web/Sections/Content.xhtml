@@ -13,8 +13,17 @@
     </div>
 
     <ui:repeat var="proyecto" value="#{projectBean.projects}">
-
+        
         <div class="row margin_own-left margin_own-right">
+            <div class="box-header pull-right" jsf:rendered="#{proyecto.id_director.equals(userBean.user.id)}">
+                <h:form>
+
+                    <h:commandButton class="btn btn-danger" value="Borrar" action="#{projectBean.doDeleteProject(proyecto)}" onclick="if (!confirm('Realmente desea eliminar el proyecto?')) return false">
+
+                    </h:commandButton>
+
+                </h:form>
+            </div>
             <div class="info-box">
                 <span class="info-box-icon #{colors.getColor(projectBean.calculaPosicionProject(proyecto))}">
                  

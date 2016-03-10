@@ -68,11 +68,11 @@ public class ProjectBean implements Serializable {
 
         users = new HashMap<>();
         projectEdited = false;
-        cargarProjects();
+        loadProjects();
 
     }
 
-    private void cargarProjects() {
+    private void loadProjects() {
         userBean.setUser(userService.findByEmail(userBean.getUser().getEmail()));
         Collection<String> idprojects = userBean.getUser().getId_project();
         projects = new ArrayList<>();
@@ -339,7 +339,7 @@ public class ProjectBean implements Serializable {
 
     public String doAddProject() {
 
-        String message = "";
+        String message1 = "";
       
        
        
@@ -358,20 +358,20 @@ public class ProjectBean implements Serializable {
         }
         
 
-        message = "Has sido añadido al proyecto " + userBean.getProjectSelected().getName() + ". El "
+        message1 = "Has sido añadido al proyecto " + project.getName() + ". El "
                 + "director del proyecto es: " + userBean.getName();
         
          
         for (String email : tempUsers) {
            
-            new SendMail(email,project.getName(),message).start();
+            new SendMail(email,project.getName(),message1).start();
             
 
         }
         projectDescription = "";
         tempUsers = new ArrayList<>();
         projectName = "";
-        cargarProjects();
+        loadProjects();
         return "";
     }
 
@@ -390,6 +390,16 @@ public class ProjectBean implements Serializable {
     public String findUserByEmail(String email_director) {
         User user = userService.findUsersByEmail(email_director);
         return user.getId();
+    }
+    
+    public String doDeleteProject(Project project){
+        userBean.getUser().getId_project().remove((String)project.getId());
+        userService.editUser(userBean.getUser());
+        
+        projectService.deleteProject(project);
+        loadProjects();
+
+        return "";
     }
 
 }
