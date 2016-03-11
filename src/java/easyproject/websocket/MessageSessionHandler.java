@@ -8,6 +8,7 @@ package easyproject.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.MongoClientException;
 import easyproject.collection.Project;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -28,16 +29,16 @@ import javax.websocket.Session;
 import easyproject.model.Message;
 import easyproject.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.stereotype.Component;
+
+
 
 @ApplicationScoped
-@EnableMongoRepositories({"easyproject.repository"})
-public class MessageSessionHandler {
+public class MessageSessionHandler  {
     
+    
+  
     @Autowired
     private ProjectService projectService;
-    
     
     private final HashMap<String, ArrayList<Session>> projectSession = new HashMap<>();
     private final HashMap<String, ArrayList<Message>> projectMessages = new HashMap<>();
@@ -56,7 +57,6 @@ public class MessageSessionHandler {
             sessions = new ArrayList<>();
         sessions.add(session);
         projectSession.put(projectID, sessions);
-        
         
         // Recuperamos mensajes para un determinado proyecto
         ArrayList<Message> msgList = projectMessages.get(projectID);
@@ -103,7 +103,7 @@ public class MessageSessionHandler {
         
         // Actualizamos los mensajes de la BD
         String chatMessages = gson.toJson(msgList);
-        Project p = projectService.findProjectById(projectID);
+        Project p = projectService.findProjectById(String.valueOf(projectID));
         p.setChat(chatMessages);
         projectService.editProject(p);
         

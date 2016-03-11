@@ -107,6 +107,10 @@ public class UserBean implements Serializable {
 
         this.taskSelected = taskSelected;
     }
+    
+     public String doProfile(){
+        return "Profile";
+    }
 
 
     public String doLogin(){

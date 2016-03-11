@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:c="http://primefaces.org/ui" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <section>
+        <div>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <!-- Profile Image -->
+                        <div class="box box-danger">
+                            <div class="box-body box-profile">
+                                <img class="profile-user-img img-responsive img-circle" src="#{userBean.image}" alt="Foto de perfil"/>
+                                <h3 class="profile-username text-center">#{userBean.name}</h3>
+                                <p class="text-muted text-center"></p>
+
+                                <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <b>Proyectos</b> <a class="pull-right">#{userBean.user.id_project.size()}</a>
+                                    </li>
+                                </ul>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+
+
+                    </div><!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#Proyectos" data-toggle="tab">Proyectos</a></li>
+                                <li><a href="#toDo" data-toggle="tab">To Do</a></li>
+                                <li><a href="#doing" data-toggle="tab">Doing</a></li>
+                                <li><a href="#done" data-toggle="tab">Done</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="Proyectos">
+                                    <c:dataTable value="#{projectBean.userProjects}" var="project">
+                                        <c:column headerText="Nombre">
+                                            <h:outputText value="#{project.name}"/>
+                                        </c:column>
+                                        <c:column headerText="Descripción">
+                                            <h:outputText value="#{project.description}"/>
+                                        </c:column>
+                                        <c:column headerText="Director">
+                                            <h:outputText value="#{projectBean.getUserName(project.id_director)}"/>
+                                        </c:column>
+                                    </c:dataTable>
+                                </div><!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="toDo">
+
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+
+                                            <table class="table no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <div class="col-md-3 text-bold" >Nombre</div>
+                                                        <div class="col-md-3 text-bold" >Descripción</div>
+                                                        <div class="col-md-3 text-bold" >Duración</div>
+                                                        <div class="col-md-3 text-bold" >Proyecto</div>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <ui:repeat class="table no-margin" value="#{projectBean.userProjects}" var="project">
+                                                    <h:panelGrid rendered="#{project.listTasks.size() > 0}">
+                                                        <ui:repeat value="#{project.listTasks}" var="task" rendered="#{project.listTasks.size() > 0}">
+
+                                                                <tr>
+                                                                    <div class="col-md-3">
+                                                                <h:form>
+                                                                    <h:commandLink value="#{task.name}" action="#{projectBean.doGoProject(project)}" rendered="#{task.status eq 'to do'}"/>
+                                                                </h:form>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{task.description}" rendered="#{task.status eq 'to do'}"/>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{task.duration} horas" rendered="#{task.status eq 'to do'}"/>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{project.name}" rendered="#{task.status eq 'to do'}"/>
+                                                                </div>
+
+                                                                </tr>                           
+
+                                                        </ui:repeat>
+                                                    </h:panelGrid>
+                                                </ui:repeat>
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                        <!-- /.table-responsive -->
+                                    </div>
+                                </div><!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="doing">
+
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+
+                                            <table class="table no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <div class="col-md-3 text-bold" >Nombre</div>
+                                                        <div class="col-md-3 text-bold" >Descripción</div>
+                                                        <div class="col-md-3 text-bold" >Duración</div>
+                                                        <div class="col-md-3 text-bold" >Proyecto</div>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <ui:repeat class="table no-margin" value="#{projectBean.userProjects}" var="project">
+                                                    <h:panelGrid rendered="#{project.listTasks.size() > 0}">
+                                                        <ui:repeat value="#{project.listTasks}" var="task" rendered="#{project.listTasks.size() > 0}">
+
+                                                                <tr>
+                                                                    <div class="col-md-3">
+                                                                <h:form>
+                                                                    <h:commandLink value="#{task.name}" action="#{projectBean.doGoProject(project)}" rendered="#{task.status eq 'doing'}"/>
+                                                                </h:form>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{task.description}" rendered="#{task.status eq 'doing'}"/>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{task.duration} horas" rendered="#{task.status eq 'doing'}"/>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{project.name}" rendered="#{task.status eq 'doing'}"/>
+                                                                </div>
+
+                                                                </tr>                           
+
+                                                        </ui:repeat>
+                                                    </h:panelGrid>
+                                                </ui:repeat>
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                        <!-- /.table-responsive -->
+                                    </div>
+                                </div><!-- /.tab-pane -->
+
+
+                                <div class="tab-pane" id="done">
+
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+
+                                            <table class="table no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <div class="col-md-3 text-bold" >Nombre</div>
+                                                        <div class="col-md-3 text-bold" >Descripción</div>
+                                                        <div class="col-md-3 text-bold" >Duración</div>
+                                                        <div class="col-md-3 text-bold" >Proyecto</div>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <ui:repeat class="table no-margin" value="#{projectBean.userProjects}" var="project">
+                                                    <h:panelGrid rendered="#{project.listTasks.size() > 0}">
+                                                        <ui:repeat value="#{project.listTasks}" var="task" rendered="#{project.listTasks.size() > 0}">
+
+                                                                <tr>
+                                                                    <div class="col-md-3">
+                                                                <h:form>
+                                                                    <h:commandLink value="#{task.name}" action="#{projectBean.doGoProject(project)}" rendered="#{task.status eq 'done'}"/>
+                                                                </h:form>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{task.description}" rendered="#{task.status eq 'done'}"/>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{task.duration} horas" rendered="#{task.status eq 'done'}"/>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                <h:outputText value="#{project.name}" rendered="#{task.status eq 'done'}"/>
+                                                                </div>
+
+                                                                </tr>                           
+
+                                                        </ui:repeat>
+                                                    </h:panelGrid>
+                                                </ui:repeat>
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                        <!-- /.table-responsive -->
+                                    </div>
+                                </div><!-- /.tab-pane -->
+
+                            </div><!-- /.tab-content -->
+                        </div><!-- /.nav-tabs-custom -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+    </section>
+
+
+</html>
