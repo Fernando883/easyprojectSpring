@@ -95,7 +95,7 @@ public class CommentBean {
     
     public String doUpdateFile() throws IOException{
         String path = "/Users/csalas/NetBeansProjects/easyprojectSpring/web/uploaded/";
-        String urlPath = "http://localhost:8080/easyprojectSpring/web/uploaded/";
+        String urlPath = "http://localhost:8080/easyprojectSpring/uploaded/";
         String fileName = String.valueOf(System.currentTimeMillis()) + getFilename(file);
         Comment comment = new Comment();
         message = "Ha subido el fichero: <a href='"+ urlPath + fileName+"'>"+ fileName +"</a>";
@@ -110,7 +110,7 @@ public class CommentBean {
 
         
         File dowloadFile = new File("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/SpringMongoJSF/"+ getFilename(file));
-	File newFile = new File(path+ getFilename(file));
+	File newFile = new File(path+ fileName);
 	Path sourcePath = dowloadFile.toPath();
 	Path newtPath = newFile.toPath();
 	Files.copy(sourcePath, newtPath, REPLACE_EXISTING); 

@@ -47,10 +47,9 @@
                                     <h:outputLabel class="text-muted pull-right" value="#{commentBean.getDate(comment.id)}">
                                     </h:outputLabel>
                                 </span><!-- /.username -->
-                                #{comment.commentText}
-                                <h:form>
-                                    <h:outputText value="#{comment.commentText}" escape="false" ></h:outputText>
-                                </h:form>
+                                
+                                <h:outputText value="#{comment.commentText}" escape="false" ></h:outputText>
+                                
 
                             </div><!-- /.comment-text -->
                         </div><!-- /.box-comment -->
