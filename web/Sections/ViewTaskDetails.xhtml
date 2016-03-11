@@ -48,7 +48,9 @@
                                     </h:outputLabel>
                                 </span><!-- /.username -->
                                 #{comment.commentText}
-                                <h:form><h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.commentText)}" value="Descargar" rendered="#{comment.commentText.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
+                                <h:form>
+                                    <h:outputText value="#{comment.commentText}" escape="false" ></h:outputText>
+                                </h:form>
 
                             </div><!-- /.comment-text -->
                         </div><!-- /.box-comment -->

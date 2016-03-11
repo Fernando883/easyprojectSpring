@@ -103,10 +103,13 @@ public class CommentBean {
     }
     
     public String doUpdateFile() throws IOException{
+        String path = "/Users/csalas/NetBeansProjects/easyprojectSpring/web/uploaded/";
+        String urlPath = "http://localhost:8080/easyprojectSpring/web/uploaded/";
+        String fileName = String.valueOf(System.currentTimeMillis()) + getFilename(file);
+        Comment comment = new Comment();
+        message = "Ha subido el fichero: <a href='"+ urlPath + fileName+"'>"+ fileName +"</a>";
         
         file.write(getFilename(file));
-        Comment comment = new Comment();
-        message = "Ha subido el fichero: " + getFilename(file);
         comment.setCommentText(message);
         comment.setId(String.valueOf(System.currentTimeMillis()));
         comment.setUserName(userBean.getUser().getName());
@@ -116,12 +119,12 @@ public class CommentBean {
 
         
         File dowloadFile = new File("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/SpringMongoJSF/"+ getFilename(file));
-	File newFile = new File("/Users/inftel10/Downloads/SpringMongoJSF2/web/uploaded/"+ getFilename(file));
+	File newFile = new File(path+ getFilename(file));
 	Path sourcePath = dowloadFile.toPath();
 	Path newtPath = newFile.toPath();
 	Files.copy(sourcePath, newtPath, REPLACE_EXISTING); 
         
-        userBean.getProjectSelected().getListTasks().get(indexOf).getFiles().add("/Users/inftel10/Downloads/SpringMongoJSF2/web/uploaded/"+ getFilename(file));
+        userBean.getProjectSelected().getListTasks().get(indexOf).getFiles().add(urlPath+ getFilename(file));
         
         projectService.editProject(userBean.getProjectSelected());
         
