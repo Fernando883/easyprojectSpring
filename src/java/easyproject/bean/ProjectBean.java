@@ -56,6 +56,8 @@ public class ProjectBean implements Serializable {
     private boolean show = false;
     private Map<String, Boolean> checked = new HashMap<>();
 
+    List<Project> userProjects;
+
     /**
      * Creates a new instance of addProjectBean
      */
@@ -68,7 +70,15 @@ public class ProjectBean implements Serializable {
 
         users = new HashMap<>();
         projectEdited = false;
+
+        userProjects = new ArrayList<>();
+
+        for (String idProject : userBean.getUser().getId_project()) {
+            userProjects.add(projectService.findProjectById(idProject));
+        }
+
         loadProjects();
+        loadUserProjects();
 
     }
 
@@ -340,9 +350,7 @@ public class ProjectBean implements Serializable {
     public String doAddProject() {
 
         String message1 = "";
-      
-       
-       
+
         Project project = new Project();
         project.setName(projectName);
         project.setDescription(projectDescription);
@@ -356,16 +364,13 @@ public class ProjectBean implements Serializable {
             tmp.getId_project().add(project.getId());
             userService.editUser(tmp);
         }
-        
 
         message1 = "Has sido añadido al proyecto " + project.getName() + ". El "
                 + "director del proyecto es: " + userBean.getName();
-        
-         
+
         for (String email : tempUsers) {
-           
-            new SendMail(email,project.getName(),message1).start();
-            
+
+            new SendMail(email, project.getName(), message1).start();
 
         }
         projectDescription = "";
@@ -391,15 +396,30 @@ public class ProjectBean implements Serializable {
         User user = userService.findUsersByEmail(email_director);
         return user.getId();
     }
-    
-    public String doDeleteProject(Project project){
-        userBean.getUser().getId_project().remove((String)project.getId());
+
+    public String doDeleteProject(Project project) {
+        userBean.getUser().getId_project().remove((String) project.getId());
         userService.editUser(userBean.getUser());
-        
+
         projectService.deleteProject(project);
         loadProjects();
 
         return "";
+    }
+
+    public void loadUserProjects() {
+        //load user projects for
+        userProjects = new ArrayList<>();
+
+        for (String idProject : userBean.getUser().getId_project()) {
+            userProjects.add(projectService.findProjectById(idProject));
+        }
+    }
+
+    public List<Project> getUserProjects() {
+
+        return userProjects;
+
     }
 
 }

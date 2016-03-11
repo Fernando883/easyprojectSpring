@@ -45,7 +45,6 @@ public class MessageSessionHandler {
         sessions.add(session);
         projectSession.put(projectID, sessions);
         
-        
         // Recuperamos mensajes para un determinado proyecto
         ArrayList<Message> msgList = projectMessages.get(projectID);
         if (msgList == null) {
@@ -91,7 +90,6 @@ public class MessageSessionHandler {
         
         // Actualizamos los mensajes de la BD
         String chatMessages = gson.toJson(msgList);
-        /*Project p = projectService.findProjectById(projectID);
         p.setChat(chatMessages);
         projectService.editProject(p);*/
         
@@ -135,3 +133,4 @@ public class MessageSessionHandler {
 
 }
 
+        /*Project p = projectService.findProjectById(projectID);

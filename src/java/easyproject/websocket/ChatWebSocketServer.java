@@ -34,6 +34,7 @@ public class ChatWebSocketServer {
     private MessageSessionHandler sessionHandler;
     private String projectID;
    
+    
     @PostConstruct
     public void afterCreate() {
         System.out.println("ChatWebSocketServer created");
