@@ -23,8 +23,7 @@ import easyproject.model.Message;
 @ApplicationScoped
 public class MessageSessionHandler {
     
-    //@Autowired
-    //private ProjectService projectService;
+    
     
     
     private final HashMap<String, ArrayList<Session>> projectSession = new HashMap<>();
@@ -89,7 +88,7 @@ public class MessageSessionHandler {
         projectMessages.put(projectID, msgList);
         
         // Actualizamos los mensajes de la BD
-        String chatMessages = gson.toJson(msgList);
+        /*String chatMessages = gson.toJson(msgList);
         p.setChat(chatMessages);
         projectService.editProject(p);*/
         
@@ -133,4 +132,4 @@ public class MessageSessionHandler {
 
 }
 
-        /*Project p = projectService.findProjectById(projectID);
+        

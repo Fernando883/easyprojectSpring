@@ -5,7 +5,7 @@
  */
 package easyproject.bean;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.annotation.Scope;
@@ -52,7 +52,7 @@ public class Colors {
     
     
     public String getColor (int i) {
-        System.out.println("VAlor: " + i);
+       
         return colors.get(i);
     }
 
