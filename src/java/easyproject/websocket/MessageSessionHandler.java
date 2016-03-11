@@ -19,6 +19,7 @@ import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
 import easyproject.model.Message;
+import java.math.BigDecimal;
 
 @ApplicationScoped
 public class MessageSessionHandler {
@@ -89,7 +90,7 @@ public class MessageSessionHandler {
         projectMessages.put(projectID, msgList);
         
         // Actualizamos los mensajes de la BD
-        String chatMessages = gson.toJson(msgList);
+        /*String chatMessages = gson.toJson(msgList);
         p.setChat(chatMessages);
         projectService.editProject(p);*/
         
@@ -108,6 +109,7 @@ public class MessageSessionHandler {
                 .add("message", message.getMessage())
                 .add("photoURL", message.getPhotoUrl())
                 .add("timestamp", simpleDateFormat.format(message.getTimestamp()))
+                .add("timestampWithoutFormat", message.getTimestamp())
                 .build();
         return addMessage;
     }
@@ -132,5 +134,3 @@ public class MessageSessionHandler {
 
 
 }
-
-        /*Project p = projectService.findProjectById(projectID);

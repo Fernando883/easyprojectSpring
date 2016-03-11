@@ -222,9 +222,10 @@ public class ProjectBean implements Serializable {
 
     public String doPrepareEdit() {
         listUsersName = new ArrayList<>();
-        List<User> allUsers = userService.findAllUsers();
-        for (User allUser : allUsers) {
-            listUsersName.add(allUser.getEmail());
+        users = new HashMap<>();
+        for (User user : userService.findAllUsers()) {
+            listUsersName.add(user.getEmail());
+            users.put(user.getEmail(), user);
         }
         listUsersName.remove(userBean.getUser().getEmail());
 
@@ -245,6 +246,9 @@ public class ProjectBean implements Serializable {
             for (String userString : tempUsers) {
                 if (!memberProject.contains(userString)) {
                     memberProject.add(userString);
+                    User u = userService.findByEmail(userString);
+                    u.getId_project().add(userBean.getProjectSelected().getId());
+                    userService.editUser(u);
                 }
             }
         }
@@ -269,6 +273,9 @@ public class ProjectBean implements Serializable {
                 }
                 if (!find) {
                     userBean.getProjectSelected().getEmailsUsers().remove((String) pair.getKey());
+                    User u = userService.findByEmail((String) pair.getKey());
+                    u.getId_project().remove(userBean.getProjectSelected().getId());
+                    userService.editUser(u);
                 }
             }
         }
@@ -286,6 +293,9 @@ public class ProjectBean implements Serializable {
         }
 
         projectService.editProject(userBean.getProjectSelected());
+        
+        
+        
 
         projectName = "";
         projectDescription = "";
@@ -297,7 +307,7 @@ public class ProjectBean implements Serializable {
     public String doPrepareCreate() {
 
         listUsersName = new ArrayList<>();
-
+        users = new HashMap<>();
         for (User user : userService.findAllUsers()) {
             listUsersName.add(user.getEmail());
             users.put(user.getEmail(), user);
