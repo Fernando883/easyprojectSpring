@@ -6,12 +6,11 @@
 package easyproject.websocket;
 
 
-import com.google.gson.Gson;
+
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-//import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;

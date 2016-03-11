@@ -6,7 +6,7 @@
 package easyproject.bean;
 
 
-import easyproject.collection.User;
+
 import easyproject.collection.sub.Task;
 import easyproject.service.ProjectService;
 import easyproject.service.UserService;
@@ -75,7 +75,7 @@ public class TaskBean {
         if (userBean.getProjectSelected() != null) {
             listUsersName = userBean.getProjectSelected().getEmailsUsers();
         }
-
+        loadTask();
     }
 
     public String getNameTask() {
@@ -87,14 +87,7 @@ public class TaskBean {
     }
 
     public Collection<Task> getCollectionTask() {
-        taskAdded = false;
-        taskEdited = false;
-        collectionTask = new ArrayList<Task>();
-        if (userBean.getProjectSelected() != null) {
-            userBean.setUser(userService.findByEmail(userBean.getUser().getEmail()));
-            
-            collectionTask = projectService.findAllTaskById(userBean.getProjectSelected().getId());
-        }
+        
         return collectionTask;
     }
 
@@ -233,6 +226,7 @@ public class TaskBean {
         tempUsers = new ArrayList<>();
         taskEdited = true;
 
+        loadTask();
         return "";
     }
 
@@ -282,9 +276,21 @@ public class TaskBean {
         description = "";
         duration = null;
         tempUsers = new ArrayList<>();
-        
+        loadTask();
         return "";
         
+        
+    }
+    public void  loadTask(){
+        
+        taskAdded = false;
+        taskEdited = false;
+        collectionTask = new ArrayList<Task>();
+        if (userBean.getProjectSelected() != null) {
+            userBean.setUser(userService.findByEmail(userBean.getUser().getEmail()));
+            
+            collectionTask = projectService.findAllTaskById(userBean.getProjectSelected().getId());
+        }
         
     }
 

@@ -6,7 +6,6 @@
 package easyproject.repository;
 
 import easyproject.collection.Project;
-import easyproject.collection.User;
 import easyproject.collection.sub.Task;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;

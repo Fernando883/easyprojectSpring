@@ -14,7 +14,6 @@ import easyproject.service.UserService;
 import java.io.Serializable;
 import java.util.Collection;
 import org.springframework.context.annotation.Scope;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 

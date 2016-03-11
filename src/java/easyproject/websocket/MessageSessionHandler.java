@@ -24,8 +24,7 @@ import java.math.BigDecimal;
 @ApplicationScoped
 public class MessageSessionHandler {
     
-    //@Autowired
-    //private ProjectService projectService;
+    
     
     
     private final HashMap<String, ArrayList<Session>> projectSession = new HashMap<>();
