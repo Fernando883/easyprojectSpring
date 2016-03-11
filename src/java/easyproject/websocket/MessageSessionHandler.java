@@ -7,11 +7,7 @@ package easyproject.websocket;
 
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import easyproject.collection.Project;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,22 +17,14 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.websocket.Session;
 import easyproject.model.Message;
-import easyproject.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.stereotype.Component;
 
 @ApplicationScoped
-@EnableMongoRepositories({"easyproject.repository"})
 public class MessageSessionHandler {
     
-    @Autowired
-    private ProjectService projectService;
+    //@Autowired
+    //private ProjectService projectService;
     
     
     private final HashMap<String, ArrayList<Session>> projectSession = new HashMap<>();
@@ -62,12 +50,12 @@ public class MessageSessionHandler {
         ArrayList<Message> msgList = projectMessages.get(projectID);
         if (msgList == null) {
             // Comprobamos si hay mensajes en la BD de sesiones anteriores
-            Project p = projectService.findProjectById(projectID);
+            /*Project p = projectService.findProjectById(projectID);
             if (p.getChat() != null) {
                 Type listType = new TypeToken<ArrayList<Message>>() {
                     }.getType();
                 msgList = gson.fromJson(p.getChat(), listType);
-            } else
+            } else*/
                 msgList = new ArrayList<>();
         }
         
@@ -90,12 +78,12 @@ public class MessageSessionHandler {
         Gson gson = new Gson();
         if (msgList == null) {
             // Comprobamos si hay mensajes en la BD
-            Project p = projectService.findProjectById(projectID);
+            /*Project p = projectService.findProjectById(projectID);
             if (p.getChat() != null) {
                 Type listType = new TypeToken<ArrayList<Message>>() {
                     }.getType();
                 msgList = gson.fromJson(p.getChat(), listType);
-            } else
+            } else*/
                 msgList = new ArrayList<>();
         }
         msgList.add(message);
@@ -103,9 +91,9 @@ public class MessageSessionHandler {
         
         // Actualizamos los mensajes de la BD
         String chatMessages = gson.toJson(msgList);
-        Project p = projectService.findProjectById(projectID);
+        /*Project p = projectService.findProjectById(projectID);
         p.setChat(chatMessages);
-        projectService.editProject(p);
+        projectService.editProject(p);*/
         
         JsonObject addMessage = createAddMessage(message);
         sendToAllConnectedSessions(projectID, addMessage);

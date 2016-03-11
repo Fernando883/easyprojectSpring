@@ -20,7 +20,6 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.mongo-java-driver-2.12.1.jar-1}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.jcl-over-slf4j-1.7.7.jar}</file>
@@ -176,11 +175,9 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.bson-3.0.4-javadoc.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.mongodb-driver-core-3.0.4.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.primefaces-5.3.jar}</file>
@@ -188,6 +185,10 @@
                 </library>
                 <library dirs="200">
                     <file>${libs.javaee-web-api-7.0.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.mongo-java-driver-3.0.4.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
