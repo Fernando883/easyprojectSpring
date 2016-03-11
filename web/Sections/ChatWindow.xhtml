@@ -12,7 +12,7 @@
             return "#{userBean.email}";
             }
             
-            var socket = new WebSocket("ws://localhost:8080/EasyProject-war/actions/#{userBean.projectSelected.idProyect}");
+            var socket = new WebSocket("ws://localhost:8080/SpringMongoJSF2/actions/#{userBean.projectSelected.id}");
          </h:outputScript>
         <script src="../js/websocket.js"></script>
         <!-- Content Header (Page header) -->
@@ -24,7 +24,7 @@
           <!-- DIRECT CHAT DANGER -->
           <div class="box box-danger direct-chat direct-chat-danger">
             <div class="box-header with-border">
-                <h3 class="box-title">Chat de #{userBean.projectSelected.nombreP}</h3>
+                <h3 class="box-title">Chat de #{userBean.projectSelected.name}</h3>
 
               <div class="box-tools pull-right">
                 <span data-toggle="tooltip" title="3 New Messages" class="badge bg-red"></span>

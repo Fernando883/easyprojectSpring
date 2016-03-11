@@ -8,7 +8,6 @@ package easyproject.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import easyproject.bean.ProjectBean;
 import easyproject.collection.Project;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -38,8 +37,7 @@ public class MessageSessionHandler {
     
     @Autowired
     private ProjectService projectService;
-    @Autowired
-    private ProjectBean projectBean;
+    
     
     private final HashMap<String, ArrayList<Session>> projectSession = new HashMap<>();
     private final HashMap<String, ArrayList<Message>> projectMessages = new HashMap<>();
